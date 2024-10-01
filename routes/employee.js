@@ -83,5 +83,94 @@ router.post(
   }
 );
 
+// GET - get one employee detail by id: /api/v1/emp/employees/{eid}
+router.get("/employees/:eid", async (req, res) => {
+  try {
+    const employee = await Employee.findById(req.params.eid);
+
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    return res.status(200).json({
+      employee_id: employee._id,
+      first_name: employee.first_name,
+      last_name: employee.last_name,
+      email: employee.email,
+      position: employee.position,
+      salary: employee.salary,
+      date_of_joining: employee.date_of_joining,
+      department: employee.department,
+    });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send("Server error");
+  }
+});
+
+// PUT - update the details of one employee by employee id : /api/v1/emp/employees/{eid}
+router.put(
+  "/employees/:eid",
+  [
+    body("position")
+      .optional()
+      .not()
+      .isEmpty()
+      .withMessage("Position is required"),
+    body("salary")
+      .optional()
+      .isNumeric()
+      .withMessage("Salary must be a number"),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { position, salary } = req.body;
+
+    try {
+      const employee = await Employee.findById(req.params.eid);
+
+      if (!employee) {
+        return res.status(404).json({ message: "Employee not found" });
+      }
+
+      // Update employee details
+      if (position) employee.position = position;
+      if (salary) employee.salary = salary;
+      employee.updated_at = Date.now();
+
+      await employee.save();
+
+      return res
+        .status(200)
+        .json({ message: "Employee details updated successfully" });
+    } catch (err) {
+      console.log();
+      return res.status(500).send("Server error");
+    }
+  }
+);
+
+// DELETE - delete one employee by employee id : /api/v1/emp/employees?eid=xxx
+router.delete("/employees", async (req, res) => {
+  const { eid } = req.query;
+
+  try {
+    const employee = await Employee.findByIdAndDelete(eid);
+
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    return res.status(204).json({ message: "Employee deleted successfully" });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send("Server error");
+  }
+});
+
 // Export employee routes
 module.exports = router;
