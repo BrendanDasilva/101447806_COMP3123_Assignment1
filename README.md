@@ -28,18 +28,21 @@ Project Title: COMP3123 Full Stack Development Assignment 1
 - express-validator for input validation
 
 4. API Endpoints
-   User Management Endpoints:
-   POST /api/v1/user/signup: Create a new user
-   POST /api/v1/user/login: Login a user and receive a JWT
-   GET /api/v1/user/users: Retrieve all users
-   DELETE /api/v1/user/:id: Delete a user by ID
 
-   Employee Management Endpoints:
-   GET /api/v1/emp/employees: Retrieve all employees
-   POST /api/v1/emp/employees: Create a new employee
-   GET /api/v1/emp/employees/:eid: Get employee details by ID
-   PUT /api/v1/emp/employees/:eid: Update employee details by ID
-   DELETE /api/v1/emp/employees?eid=xxx: Delete employee by ID
+User Management Endpoints:
+
+- POST /api/v1/user/signup: Create a new user
+- POST /api/v1/user/login: Login a user and receive a JWT
+- GET /api/v1/user/users: Retrieve all users
+- DELETE /api/v1/user/:id: Delete a user by ID
+
+Employee Management Endpoints:
+
+- GET /api/v1/emp/employees: Retrieve all employees
+- POST /api/v1/emp/employees: Create a new employee
+- GET /api/v1/emp/employees/:eid: Get employee details by ID
+- PUT /api/v1/emp/employees/:eid: Update employee details by ID
+- DELETE /api/v1/emp/employees?eid=xxx: Delete employee by ID
 
 5. Testing
    Testing done via Postman using API Endpoints from item 4.
